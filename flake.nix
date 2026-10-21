@@ -18,10 +18,9 @@
       '';
     };
   in {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations."0kauaa" = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
-        ./hardware-configuration.nix
         ./configuration.nix
         
         {
