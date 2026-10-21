@@ -84,13 +84,13 @@
     ];
   };
 
-  programs.nix-ld.enable = true;  
-  programs.vscode.enable = true;
+  programs.nix-ld.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    vscode
     opencode-desktop
     brave
     spotify
