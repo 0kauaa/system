@@ -107,6 +107,98 @@
     "flakes"
   ];  
 
+
+  # Script que controla a iluminacao RGB pelo Scroll Lock
+  environment.etc."scrolllock-rgb.py".text = ''
+    import glob
+    import time
+    import evdev
+    from evdev import ecodes
+
+    LED_PATHS = "/sys/class/leds/*scrolllock*/brightness"
+    KEYBOARD_NAME = "USB USB Keyboard"
+
+    def set_leds(value):
+        for path in glob.glob(LED_PATHS):
+            try:
+                with open(path, "w") as led:
+                    led.write(str(value) + "\n")
+            except OSError as error:
+                print("Erro ao controlar LED:", error, flush=True)
+
+    while True:
+        keyboard = None
+
+        try:
+            for path in evdev.list_devices():
+                device = evdev.InputDevice(path)
+                capabilities = device.capabilities().get(
+                    ecodes.EV_KEY, []
+                )
+
+                if (
+                    device.name == KEYBOARD_NAME
+                    and ecodes.KEY_SCROLLLOCK in capabilities
+                    and ecodes.KEY_A in capabilities
+                ):
+                    keyboard = device
+                    break
+
+                device.close()
+
+            if keyboard is None:
+                print("Aguardando teclado USB...", flush=True)
+                time.sleep(2)
+                continue
+
+            print(
+                "Monitorando: " + keyboard.name + " em " + keyboard.path,
+                flush=True,
+            )
+
+            state = 0
+            set_leds(state)
+
+            for event in keyboard.read_loop():
+                if (
+                    event.type == ecodes.EV_KEY
+                    and event.code == ecodes.KEY_SCROLLLOCK
+                    and event.value == 1
+                ):
+                    state = 1 - state
+                    set_leds(state)
+                    print("RGB: " + ("ligado" if state else "desligado"),
+                          flush=True)
+
+                elif event.type == ecodes.EV_LED:
+                    time.sleep(0.05)
+                    set_leds(state)
+
+        except (OSError, IOError) as error:
+            print("Teclado desconectado: " + str(error), flush=True)
+
+        finally:
+            if keyboard is not None:
+                keyboard.close()
+
+        time.sleep(2)
+  '';
+
+  # Serviço persistente para o teclado RGB
+  systemd.services.scrolllock-rgb = {
+    description = "Controle RGB do teclado via Scroll Lock";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-udev-settle.service" ];
+
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.python3.withPackages (ps: [ ps.evdev ])}/bin/python3 /etc/scrolllock-rgb.py";
+      Restart = "always";
+      RestartSec = "2s";
+    };
+  };
+
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   # environment.systemPackages = with pkgs; [
