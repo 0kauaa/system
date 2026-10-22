@@ -95,6 +95,11 @@ environment.systemPackages = with pkgs; [
     "electron-41.10.7"
   ];
 
+  # Fontes
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+  ];
+  
   # Teclado: controle da iluminação RGB
   environment.etc."scrolllock-rgb.py".text = ''
     import glob
