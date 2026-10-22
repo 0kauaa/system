@@ -97,7 +97,7 @@ environment.systemPackages = with pkgs; [
 
   # Fontes
   fonts.packages = with pkgs; [
-    nerd-fonts.fira-code
+    fira-code
   ];
   
   # Teclado: controle da iluminação RGB
