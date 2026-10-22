@@ -78,8 +78,10 @@ environment.systemPackages = with pkgs; [
   cabal-install
   stack
 
-  # Extensões do GNOME
+  # Extensões do sistema
   gnomeExtensions.dash-to-dock
+  direnv
+  nix-direnv
 
   # Aplicativos
   spotify
@@ -99,7 +101,7 @@ environment.systemPackages = with pkgs; [
   fonts.packages = with pkgs; [
     fira-code
   ];
-  
+
   # Teclado: controle da iluminação RGB
   environment.etc."scrolllock-rgb.py".text = ''
     import glob
