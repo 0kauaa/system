@@ -61,18 +61,29 @@
     ];
   };
 
-  # Programas e pacotes
-  programs.nix-ld.enable = true;
-  environment.systemPackages = with pkgs; [
-    brave
-    git
-    gnomeExtensions.dash-to-dock
-    opencode-desktop
-    spotify
-    vscode
-  ];
 
+# Programas e pacotes
+programs.nix-ld.enable = true;
+environment.systemPackages = with pkgs; [
+  # Navegadores
+  brave
 
+  # Desenvolvimento
+  git
+  vscode
+  opencode-desktop
+
+  # Ambiente Haskell global
+  ghc
+  cabal-install
+  stack
+
+  # Extensões do GNOME
+  gnomeExtensions.dash-to-dock
+
+  # Aplicativos
+  spotify
+];
 
   # Configurações do Nix
   nix.settings.experimental-features = [
