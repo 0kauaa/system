@@ -71,6 +71,7 @@ environment.systemPackages = with pkgs; [
   # Desenvolvimento
   git
   vscode
+  opencode
   opencode-desktop
 
   # Ambiente Haskell global
