@@ -74,6 +74,9 @@ environment.systemPackages = with pkgs; [
   opencode
   opencode-desktop
 
+  # Ambiente Python global
+  (python3.withPackages (ps: with  ps; [pip]))
+
   # Ambiente Haskell global
   ghc
   cabal-install
