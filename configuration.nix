@@ -89,6 +89,7 @@ environment.systemPackages = with pkgs; [
 
   # Aplicativos
   spotify
+  libreoffice
 ];
 
   # Configurações do Nix
