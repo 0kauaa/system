@@ -22,7 +22,7 @@
       inherit system;
       modules = [
         ./configuration.nix
-        
+
         {
           environment.systemPackages = [
             opencode-automatico

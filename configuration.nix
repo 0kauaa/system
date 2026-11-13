@@ -89,9 +89,23 @@ environment.systemPackages = with pkgs; [
 
   # Aplicativos
   spotify
-  libreoffice
+  libreoffice-qt
+  # spell checker com ptbr e variantes do inglês para o libreoffice
+  (hunspell.withDicts (dicts: with hunspellDicts; [pt_BR en_US en_GB-large en_CA en_AU ]))
+
 ];
 
+# overlay para um erro do vscode (a ser removido posteriormente)
+nixpkgs.overlays = [
+  (final: prev: {
+    vscode = prev.vscode.overrideAttrs (old: {
+      postPatch = builtins.replaceStrings
+        [ "resources/app/node_modules/@vscode/ripgrep/bin/rg" ]
+        [ "resources/app/node_modules.asar.unpacked/@vscode/ripgrep-universal/bin/linux-x64/rg" ]
+        (old.postPatch or "");
+    });
+  })
+];
   # Configurações do Nix
   nix.settings.experimental-features = [
     "nix-command"
