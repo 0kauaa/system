@@ -70,6 +70,7 @@ environment.systemPackages = with pkgs; [
 
   # Desenvolvimento
   git
+  tree
   vscode
   opencode
   opencode-desktop
