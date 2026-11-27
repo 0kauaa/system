@@ -70,7 +70,7 @@ EOF
     runHook postInstall
   '';
 
-  # metadados utilizados pelo nix e por ferramentas de gerenciamento
+  # metadados do pacote
   meta = with pkgs.lib; {
     description = "Unofficial community Minecraft launcher";
     homepage = "https://skmedix.pl/";
