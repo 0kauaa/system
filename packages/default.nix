@@ -13,4 +13,9 @@
   sklauncher = import ./sklauncher.nix {
     inherit pkgs;
   };
+
+  # uaitex
+  uaitex = import ./uatex.nix {
+    inherit pkgs;
+  }
 }
