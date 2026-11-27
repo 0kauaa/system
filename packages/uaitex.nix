@@ -54,7 +54,16 @@ pkgs.stdenv.mkDerivation {
   # extrai o conteúdo do pacote debian sem instalá-lo no sistema
   unpackPhase = ''
     runHook preUnpack
-    dpkg-deb -x "$src" .
+
+    mkdir -p source
+    dpkg-deb --fsys-tarfile "$src" \
+      | tar --extract \
+          --directory=source \
+          --no-same-owner \
+          --no-same-permissions
+
+    cd source
+
     runHook postUnpack
   '';
 
