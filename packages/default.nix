@@ -15,7 +15,7 @@
   };
 
   # uaitex
-  uaitex = import ./uatex.nix {
+  uaitex = import ./uaitex.nix {
     inherit pkgs;
   }
 }
