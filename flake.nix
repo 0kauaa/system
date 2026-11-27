@@ -12,9 +12,9 @@
     # arquitetura
     system = "x86_64-linux";
 
+    # pacotes oficiais
     pkgs = import nixpkgs {
       inherit system;
-
       config.allowUnfree = true;
     };
 
@@ -24,6 +24,9 @@
     };
 
   in {
+    # disponibiliza build individuais para os pacotes personalizados
+    packages.${system} = customPackages;
+
     # configuração do sistema
     nixosConfigurations."0kauaa" = nixpkgs.lib.nixosSystem {
       inherit system;
